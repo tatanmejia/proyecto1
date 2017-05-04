@@ -43,7 +43,7 @@ void menu(){
 
     int opc;
     int salir=1;
-    int n,dbus;
+    int n,bus,dbusc;
     bool vald=false;
 
     do{
@@ -91,45 +91,62 @@ void menu(){
 
                 case 2:
                     printf("\n Insertar elementos LIFO\n");
-                    printf("\nDigite un valor numerico (Digite <0> para detener el ingreso: \n");
+                    printf("\nDigite un valor numerico\n");
                     while(n!=0){
                         scanf("%d",&n);
                         insertar_pila(pila,n);
                     }
                     break;
                 case 3:
-                    printf("\n\n Como desea mostrar los elementos?: \n\n");
+                    printf("\n\n Como desea mostrar los elementos: \n\n");
                     printf("  1. Mostrar el primero elemento. \n");
                     printf("  2. Mostrar el ultimo elemento. \n");
                     printf("  3. Mostrar todos los elementos. \n\n");
-                    printf("  Ingrese una opcion: "); scanf("%d", &opc);
+                    printf("  Ingrese una opcion: ");
+                    scanf("%d", &opc);
 
 
                         switch(opc){
                             case 1:
-                                /*n=pila;
-                                printf("\n El primer elemento es %d \n",n);*/
+                                nodo *aux=pila;
+                                while(aux!=NULL)
+                                {
+                                    if(aux->siguiente==NULL)
+                                    {
+                                    printf("El primer elemento de la pila es: %d\n",pila->dato);
+                                    }
+                                    aux=aux->siguiente;
+                                }
 
                                 break;
+
                             case 2:
+                               {
+                                       printf("El ultimo elemento de la pila es: %d\n",pila->n);
+                                    system("pause");
+                                }
                                 break;
+
+
+
+
                             case 3:
                                 printf("\nMOSTRAR TODOS LOS ELEMENTOS \n\n");
                                 printf("\nLa lista LIFO contiene los siguientes elementos: \n\n");
                                 imprimir_pila(pila);
                                 printf("\n\n<<%d>>",n);
                                 break;
-                            default: printf("\n LA OPCION INGRESADA NO ES VALIDA. \n\n");
+                            default: printf("\nOPCION INGRESADA NO VALIDA. \n\n");
                             }
                             break;
 
                 case 4:
                     printf("\nBUSCAR ELEMENTOS\n\n");
                     printf("Digite valor a buscar en la pila: ");
-                    scanf("%d",&dbus);
+                    scanf("%d",&bus);
                     while(pila!=NULL){
-                    if(pila->dato==dbus){
-                        printf("\nEl valor buscado <%d>, se encuentra en la lista LIFO\n",dbus);
+                    if(pila->dato==bus){
+                        printf("\nEl valor buscado <%d>, se encuentra en la lista LIFO\n",bus);
                         vald=true;
                         pila=pila->siguiente;
                         }else{
@@ -138,15 +155,48 @@ void menu(){
                     }
                     break;
                 case 5:
+                    printf("Digite valor a eliminar de la pila: ");
+                    scanf("%d",&dbusc);
+                    while(pila!=NULL){
+                    if(pila->dato==dbusc){
+                        eliminar_elementos_pila (pila,dbusc);
+                        pila=pila->siguiente;
+                        printf("\nEl valor buscado <%d>, fue eliminado de la lista LIFO\n",dbusc);
+                        vald=true;
+                        }else{
+                            pila=pila->siguiente;
+                        }
+                    }
+                    if(vald!=true){
+                        printf("\nEl valor buscado <%d>, no se encuentra en la lista LIFO\n",dbusc);
+                    }
                     break;
                 case 6:
+                    printf("\nEDITAR ELEMENTOS\n\n");
+                    editar_pila();
                     break;
                 case 7:
+                    printf("\nELIMINAR ELEMENTOS\n\n");
+                    if(pila!=NULL){
+                        pila=NULL;
+                        printf("\n\nElementos de la Pila eliminados Correctamente!");
+                    }else{
+                            printf("\nLa Pila ya se encuentra vacia!!");
+                    }
                     break;
                 case 8:
+                     printf("\nLIFO VACIA\n\n");
+                    if(vaciar_elementos_pila(pila)){
+                        printf("\nLa lista LIFO esta vacia!\n\n");
+                    }else{
+                        printf("\nLa lista LIFO  no esta vacia! ((%d))\n\n",pila->dato);
+                    }
 
                     break;
                 case 9:
+                    printf("\nELIMINAR LIFO\n\n");
+                    eliminar_pila();
+                    printf("\nLista eliminada!\n\n");
 
                             break;
                 case 0:
@@ -687,9 +737,37 @@ void eliminar_elementos_pila (nodo *&pila, int &n){
 }
 
 void editar_pila (){
+     int buscar=0;
+    bool encontrado=false;
+
+    nodo *actual = reservar_memoria;
+    actual = inicio;
+
+    printf("\n  Ingrese el numero que desea editar de la pila: ");
+    scanf("%d", &buscar);
+
+    if(inicio != NULL){
+        while(actual != NULL){
+            if(actual->dato == buscar){
+                printf("\n  El numero ( %d ) se encuentra en la pila.", buscar);
+                printf("\n  Ingrese el nuevo numero: "); scanf("%d", &actual->dato);
+                printf("\n  Editado con exito!\n");
+                encontrado = true;
+            }
+            actual = actual->siguiente;
+        }
+        if(encontrado==false){
+            printf("\n  El numero (%d) no se encuentra en la pila. ", buscar);
+        }
+    }else{
+        printf("\n  La pila esta vacia. \n\n");
+    }
+}
+
 }
 
 void vaciar_elementos_pila (){
+       nodo * pila = NULL;
 }
 
 bool pila_vacia(nodo *&pila){
